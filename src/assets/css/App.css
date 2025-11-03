@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+.app-title{
+  @apply w-[60vw] lg:w-[30vw] lg:max-w-[380px];
+  margin-bottom: -3.5rem;
+}
+.roulette-container{
+  @apply relative;
+}
+.spin__control--wrapper{
+  @apply absolute inset-0 flex items-center justify-center m-auto;
+}
+.controls-menu .controls{
+  @apply overflow-hidden w-0;
+}
+.controls-menu .controls.open{
+  @apply w-auto;
+}

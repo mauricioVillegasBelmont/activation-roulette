@@ -1,0 +1,26 @@
+@reference "tailwindcss";
+.roulette {
+  @apply rounded-full m-auto bg-white;
+  rotate: -90deg;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+.roulette-wrapper {
+  @apply m-auto relative;
+}
+.roulette-ponter {
+  @apply absolute z-10;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 60px;
+
+  filter: drop-shadow(6px 5px 10px rgba(0, 0, 0, 0.5));
+}
+.roulette-ponter::after {
+  @apply block w-full h-full;
+  content: '';
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+      radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+}
