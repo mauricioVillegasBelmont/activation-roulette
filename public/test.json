@@ -1,64 +1,61 @@
 {
-  "id": "otra",
-  "passwords":{
-    "forcePrice":"test",
-    "forceChallenge":"test",
-    "forceEnd":"test"
-  },
-  "prizes":[
-    {
-      "label": "prize1",
-      "description": "prize 1 description"
-    },
-    {
-      "label": "prize2",
-      "description": "prize 2 description"
-    },
-    {
-      "label": "prize3",
-      "description": "prize 3 description"
-    },
-    {
-      "label": "prize4",
-      "description": "prize 4 description"
-    }
-  ],
-  "challenges":[
-    {
-      "label": "challenge1",
-      "description": "challenge 1 description"
-    },
-    {
-      "label": "challenge2",
-      "description": "challenge 2 description"
-    },
-    {
-      "label": "challenge3",
-      "description": "challenge 3 description"
-    },
-    {
-      "label": "challenge4",
-      "description": "challenge 4 description"
-    }
-  ],
-  "shuffle":[
-    "challenges",
-    "prizes"
-  ],
-  "animatedBackground":{
-    "hold": "/video/hold.webm",
-    "spin": "/video/spin.mp4",
-    "end": "/video/end.webm",
-    "stage": "/video/stage.webm"
-  },
-  "miss_attempt": 3,
-  "retry_attempt": 2,
-  "delayTime": 3000,
-  "colors": {
-    "prize": "#e72276",
-    "challenge": "#EF98C0",
-    "miss": "#C991C5",
-    "retry": "#FCF69D",
-    "border": "#ffffff"
-  }
+	"id": "otra",
+	"passwords": {
+		"forcePrice": "test",
+		"forceChallenge": "test",
+		"forceEnd": "test"
+	},
+	"prizes": [
+		{
+			"label": "prize1",
+			"description": "prize 1 description"
+		},
+		{
+			"label": "prize2",
+			"description": "prize 2 description"
+		},
+		{
+			"label": "prize3",
+			"description": "prize 3 description"
+		},
+		{
+			"label": "prize4",
+			"description": "prize 4 description"
+		}
+	],
+	"challenges": [
+		{
+			"label": "challenge1",
+			"description": "challenge 1 description"
+		},
+		{
+			"label": "challenge2",
+			"description": "challenge 2 description"
+		},
+		{
+			"label": "challenge3",
+			"description": "challenge 3 description"
+		},
+		{
+			"label": "challenge4",
+			"description": "challenge 4 description"
+		}
+	],
+	"shuffle": ["challenges", "prizes"],
+	"animatedBackground": {
+		"hold": "https://res.cloudinary.com/miau-vi-be/video/upload/v1765565942/roulette-trendy/hold.webm",
+		"spin": "https://res.cloudinary.com/miau-vi-be/video/upload/v1765565962/roulette-trendy/spin.mp4",
+		"end": "https://res.cloudinary.com/miau-vi-be/video/upload/v1765565967/roulette-trendy/end.webm",
+		"stage": "https://res.cloudinary.com/miau-vi-be/video/upload/v1765565962/roulette-trendy/stage.webm"
+	},
+	"miss_attempt": 3,
+	"retry_attempt": 2,
+	"delayTime": 3000,
+	"colors": {
+		"prize": "#e72276",
+		"challenge": "#EF98C0",
+		"miss": "#C991C5",
+		"retry": "#FCF69D",
+		"border": "#ffffff"
+	}
 }

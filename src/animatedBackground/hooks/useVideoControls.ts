@@ -1,26 +1,30 @@
-// import { useEffect } from 'react';
-// import { VideoProvider } from '../context/VideoProvider';
-import { useVideo } from './index';
+import { useVideo } from "./index";
+import type { VideoKeys, VideoMap } from "animatedBackground/types";
 
 export const useVideoControls = () => {
-  const { state, dispatch } = useVideo();
+	const { state, dispatch } = useVideo();
 
-  const setVariant = (variant: 'hold' | 'spin' | 'end' | 'stage') => {
-    dispatch({ type: 'SET_VARIANT', payload: variant });
-  };
+	const setVideoMap = (videoMap: VideoMap) => {
+		dispatch({ type: "SET_VIDEO_MAP", payload: videoMap });
+	};
 
-  const setCurrentVideo = (videoUrl: string) => {
-    dispatch({ type: 'SET_CURRENT_VIDEO', payload: videoUrl });
-  };
+	const setVariant = (variant: VideoKeys) => {
+		dispatch({ type: "SET_VARIANT", payload: variant });
+	};
 
-  const addLoadedVideo = (videoUrl: string) => {
-    dispatch({ type: 'ADD_LOADED_VIDEO', payload: videoUrl });
-  };
+	const setCurrentVideo = (videoUrl: string) => {
+		dispatch({ type: "SET_CURRENT_VIDEO", payload: videoUrl });
+	};
 
-  return {
-    ...state,
-    setVariant,
-    setCurrentVideo,
-    addLoadedVideo,
-  };
+	const addLoadedVideo = (videoUrl: string) => {
+		dispatch({ type: "ADD_LOADED_VIDEO", payload: videoUrl });
+	};
+
+	return {
+		...state,
+		setVideoMap,
+		setVariant,
+		setCurrentVideo,
+		addLoadedVideo,
+	};
 };

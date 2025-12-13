@@ -15,7 +15,7 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff,woff2}'],
         runtimeCaching: [
           {
-            urlPattern: /\/video\/.*\.(mp4|webm|avi|mov)/i,
+            urlPattern: /.*\.(mp4|webm|avi|mov)/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'video-cache',
@@ -84,6 +84,7 @@ export default defineConfig({
       roulette: "/src/roulette",
       gui: "/src/gui",
       utils: "/src/utils",
+      animatedBackground: "/src/animatedBackground",
     }
   }
 })

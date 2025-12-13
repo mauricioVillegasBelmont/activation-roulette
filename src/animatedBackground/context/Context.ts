@@ -1,14 +1,19 @@
-import { createContext } from 'react';
-import { type VideoBGContextType } from '../types';
+import { createContext } from "react";
+import type { VideoBGContextType, VideoState } from "animatedBackground/types";
 
-const initialVideoState: VideoBGContextType = {
-  state: {
-    currentVideo: '/video/hold.mp4',
-    loadedVideos: new Set(),
-    variant: 'hold',
-  },
-  dispatch: () => {},
+export const initialVideoState: VideoState = {
+	videoMap: {},
+	currentVideo: null,
+	variant: "hold",
+	loadedVideos: new Set(),
 };
 
-const VideoContext = createContext<VideoBGContextType>(initialVideoState);
+const initialVideoContextState: VideoBGContextType = {
+	state: initialVideoState,
+	dispatch: () => {},
+};
+
+const VideoContext = createContext<VideoBGContextType>(
+	initialVideoContextState
+);
 export default VideoContext;
