@@ -20,7 +20,7 @@ export interface Config {
 		  }
 		| Record<string, never>;
 	gameOverTitle: string;
-	gameOverMessage: string;
+	gameOverMessage?: string;
 	options: RouletteOption[];
 }
 

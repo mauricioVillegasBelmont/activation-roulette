@@ -80,7 +80,11 @@ const App: React.FC = () => {
 					) : gameOver ? (
 						<>
 							<p className="gameover-title">{config.gameOverTitle}</p>
-							<p className="gameover-message">{config.gameOverMessage}</p>
+							{config.gameOverMessage ? (
+								<p className="gameover-message">{config.gameOverMessage}</p>
+							) : (
+								""
+							)}
 						</>
 					) : (
 						<Game toggleHold={holdStateHandler} />

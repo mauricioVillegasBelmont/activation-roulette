@@ -1,4 +1,5 @@
 import type { Config } from "store/types";
+import { isValidConfig } from "store/utils/validateSchema";
 
 const normalizeConfig = (config: Partial<Config>): Config => {
 	const defaultValue = {
@@ -21,7 +22,6 @@ const normalizeConfig = (config: Partial<Config>): Config => {
 		retry_attempt: 0,
 		delayTime: 1000,
 		gameOverTitle: "Game Over",
-		gameOverMessage: "Fue un Placer Jugar con ustedes",
 		colors: {},
 		options: [],
 	};
@@ -42,11 +42,15 @@ const useStorage = () => {
 			// Si no existe en localStorage, obtener desde public
 			const response = await fetch(`/${id}.json`);
 			if (!response.ok) {
-				throw new Error(`Failed to load config for ${id}`);
+				throw new Error(`Failed to load config for ${id}.json`);
 			}
 
 			const loadedConfig: Partial<Config> = await response.json();
-			const config: Config = normalizeConfig(loadedConfig);
+			if (!isValidConfig(loadedConfig as Partial<Config>)) {
+				throw new Error(`Missconfig Schema for ${id}.json`);
+				return null;
+			}
+			const config: Config = normalizeConfig(loadedConfig as Partial<Config>);
 
 			// Guardar en loc alStorage
 			// localStorage.setItem(getConfigKey(id), JSON.stringify(config));
