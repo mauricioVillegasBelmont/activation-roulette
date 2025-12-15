@@ -19,6 +19,8 @@ export interface Config {
 				border: string;
 		  }
 		| Record<string, never>;
+	gameOverTitle: string;
+	gameOverMessage: string;
 	options: RouletteOption[];
 }
 

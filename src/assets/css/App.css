@@ -1,18 +1,24 @@
 @import "tailwindcss";
 
-.app-title{
-  @apply w-[60vw] lg:w-[30vw] lg:max-w-[380px];
-  margin-bottom: -3.5rem;
+.app-title {
+	@apply w-[60vw] lg:w-[30vw] lg:max-w-[380px];
+	margin-bottom: -3.5rem;
 }
-.roulette-container{
-  @apply relative;
+.roulette-container {
+	@apply relative;
 }
-.spin__control--wrapper{
-  @apply absolute inset-0 flex items-center justify-center m-auto;
+.spin__control--wrapper {
+	@apply absolute inset-0 flex items-center justify-center m-auto;
 }
-.controls-menu .controls{
-  @apply overflow-hidden w-0;
+.controls-menu .controls {
+	@apply overflow-hidden w-0;
 }
-.controls-menu .controls.open{
-  @apply w-auto;
+.controls-menu .controls.open {
+	@apply w-auto;
+}
+.gameover-title {
+	@apply text-white font-extrabold text-center text-6xl py-10;
+}
+.gameover-message {
+	@apply text-white text-center text-base py-5;
 }

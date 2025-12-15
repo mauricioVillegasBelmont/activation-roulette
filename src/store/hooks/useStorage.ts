@@ -20,6 +20,8 @@ const normalizeConfig = (config: Partial<Config>): Config => {
 		miss_attempt: 0,
 		retry_attempt: 0,
 		delayTime: 1000,
+		gameOverTitle: "Game Over",
+		gameOverMessage: "Fue un Placer Jugar con ustedes",
 		colors: {},
 		options: [],
 	};

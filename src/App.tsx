@@ -20,12 +20,9 @@ const App: React.FC = () => {
 	const [holdState, setHoldState] = useState<boolean>(true);
 
 	const holdStateHandler = () => {
-		setHoldState(!holdState);
+		setHoldState((prev) => !prev);
 	};
 
-	// useEffect(() => {
-	//   console.log(config);
-	// }, [config]);
 	useEffect(() => {
 		// "spin" | "hold" | "end" | "stage"
 		if (holdState) {
@@ -80,6 +77,11 @@ const App: React.FC = () => {
 					</h1>
 					{holdState ? (
 						<Hold toggleHold={holdStateHandler} />
+					) : gameOver ? (
+						<>
+							<p className="gameover-title">{config.gameOverTitle}</p>
+							<p className="gameover-message">{config.gameOverMessage}</p>
+						</>
 					) : (
 						<Game toggleHold={holdStateHandler} />
 					)}
