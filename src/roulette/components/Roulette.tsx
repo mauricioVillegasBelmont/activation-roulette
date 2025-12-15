@@ -1,217 +1,219 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from "react";
 // import type{ RouletteOption } from 'roulette/types';
-import { useRoulette, type RouletteOption } from 'roulette/index';
-import "./Roulette.css"
+import { useRoulette, type RouletteOption } from "roulette/index";
+import "./Roulette.css";
 
-import clamp from 'utils/clamp';
+import clamp from "utils/clamp";
 
 interface RouletteProps {
-  // options: RouletteOption[];
-  onSpinEnd: (result: RouletteOption) => void;
-  size?: number;
-  colorOptions?: {[key:string]: string};
+	// options: RouletteOption[];
+	onSpinEnd: (result: RouletteOption) => void;
+	size?: number;
+	colorOptions?: { [key: string]: string };
 }
 
 const Roulette: React.FC<RouletteProps> = ({
-  // options,
-  onSpinEnd,
-  size = 400,
-  colorOptions = {},
+	// options,
+	onSpinEnd,
+	size = 400,
+	colorOptions = {},
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [rotation, setRotation] = useState(0);
-  // const [isSpinning, setIsSpinning] = useState(false);
+	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const [rotation, setRotation] = useState(0);
+	// const [isSpinning, setIsSpinning] = useState(false);
 
-  const {
-    options,
-    isSpinning,
-    result,
-    delayTime,
-    stopSpin,
-  } = useRoulette();
+	const { options, isSpinning, result, delayTime, stopSpin } = useRoulette();
 
-  // Colores por defecto
-  const colors = {...{
-    prize: '#4CAF50',
-    challenge: '#2196F3',
-    miss: '#F44336',
-    retry: '#FF9800',
-    border: '#000000',
-  }, ...colorOptions};
+	// Colores por defecto
+	const colors = {
+		...{
+			prize: "#4CAF50",
+			challenge: "#2196F3",
+			miss: "#F44336",
+			retry: "#FF9800",
+			border: "#000000",
+		},
+		...colorOptions,
+	};
 
-  // Dibujar la ruleta
-  const drawRoulette = (rotation: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+	useEffect(() => {
+		const handleWindowResize = () => {
+			setRotation((prevCount) => prevCount + 0.0001);
+		};
+		window.addEventListener("resize", handleWindowResize as EventListener);
+		setTimeout(() => {
+			setRotation((prevCount) => prevCount + 0.0001);
+		}, 125);
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+		return () => {
+			window.removeEventListener("resize", handleWindowResize as EventListener);
+		};
+	}, []);
+	useEffect(() => {
+		// Dibujar la ruleta
+		const drawRoulette = (rotation: number) => {
+			const canvas = canvasRef.current;
+			if (!canvas) return;
 
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = Math.min(centerX, centerY) - 10;
+			const ctx = canvas.getContext("2d");
+			if (!ctx) return;
 
-    // Limpiar canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+			const centerX = canvas.width / 2;
+			const centerY = canvas.height / 2;
+			const radius = Math.min(centerX, centerY) - 10;
 
-    // Hacer el fondo transparente
-    ctx.fillStyle = 'transparent';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+			// Limpiar canvas
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (options.length === 0) return;
+			// Hacer el fondo transparente
+			ctx.fillStyle = "transparent";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    const sliceAngle = (2 * Math.PI) / options.length;
+			if (options.length === 0) return;
 
-    // Dibujar cada segmento
-    options.forEach((option, i) => {
-      const startAngle = i * sliceAngle + rotation;
-      const endAngle = (i + 1) * sliceAngle + rotation;
+			const sliceAngle = (2 * Math.PI) / options.length;
 
-      // Determinar color según el tipo
-      let color = colors.border;
-      switch (option.type) {
-        case 'prize':
-          color = colors.prize;
-          break;
-        case 'challenge':
-          color = colors.challenge;
-          break;
-        case 'miss':
-          color = colors.miss;
-          break;
-        case 'retry':
-          color = colors.retry;
-          break;
-      }
+			// Dibujar cada segmento
+			options.forEach((option, i) => {
+				const startAngle = i * sliceAngle + rotation;
+				const endAngle = (i + 1) * sliceAngle + rotation;
 
-      // Dibujar segmento
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY);
-      ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-      ctx.closePath();
-      ctx.fillStyle = color;
-      ctx.fill();
-      ctx.strokeStyle = colors.border;
-      ctx.lineWidth = 2;
-      ctx.stroke();
+				// Determinar color según el tipo
+				let color = colors.border;
+				switch (option.type) {
+					case "prize":
+						color = colors.prize;
+						break;
+					case "challenge":
+						color = colors.challenge;
+						break;
+					case "miss":
+						color = colors.miss;
+						break;
+					case "retry":
+						color = colors.retry;
+						break;
+				}
 
-      // Dibujar texto
-      ctx.save();
-      ctx.translate(centerX, centerY);
-      ctx.rotate(startAngle + sliceAngle / 2);
-      ctx.textAlign = 'right';
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = `bold ${clamp((size / 50),10,22)}px Arial`;
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-      ctx.shadowBlur = 2;
-      ctx.shadowOffsetX = 1;
-      ctx.shadowOffsetY = 1;
+				// Dibujar segmento
+				ctx.beginPath();
+				ctx.moveTo(centerX, centerY);
+				ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+				ctx.closePath();
+				ctx.fillStyle = color;
+				ctx.fill();
+				ctx.strokeStyle = colors.border;
+				ctx.lineWidth = 2;
+				ctx.stroke();
 
-      // Ajustar texto para que quepa en el segmento
-      let text = option.label;
-      const maxWidth = radius * 0.8;
-      let textWidth = ctx.measureText(text).width;
+				// Dibujar texto
+				ctx.save();
+				ctx.translate(centerX, centerY);
+				ctx.rotate(startAngle + sliceAngle / 2);
+				ctx.textAlign = "right";
+				ctx.fillStyle = "#FFFFFF";
+				ctx.font = `bold ${clamp(size / 50, 10, 22)}px Arial`;
+				ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+				ctx.shadowBlur = 2;
+				ctx.shadowOffsetX = 1;
+				ctx.shadowOffsetY = 1;
 
-      while (textWidth > maxWidth && text.length > 0) {
-        text = text.substring(0, text.length - 1);
-        textWidth = ctx.measureText(text).width;
-      }
+				// Ajustar texto para que quepa en el segmento
+				let text = option.label;
+				const maxWidth = radius * 0.8;
+				let textWidth = ctx.measureText(text).width;
 
-      if (text.length > 0) {
-        ctx.fillText(text, radius - 20, 5);
-      }
+				while (textWidth > maxWidth && text.length > 0) {
+					text = text.substring(0, text.length - 1);
+					textWidth = ctx.measureText(text).width;
+				}
 
-      ctx.restore();
-    });
+				if (text.length > 0) {
+					ctx.fillText(text, radius - 20, 5);
+				}
 
-    // Dibujar círculo central
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, 10, 0, 2 * Math.PI);
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fill();
-    ctx.strokeStyle = colors.border;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  };
-  // Función para girar la ruleta
-  const drawSpin = (targetIndex: number) => {
-    if (!isSpinning || options.length === 0) return;
+				ctx.restore();
+			});
 
-    // Calcular rotación para que caiga en el segmento objetivo
-    const sliceAngle = (2 * Math.PI) / options.length;
-    const targetRotation = 2 * Math.PI * 5 + (2 * Math.PI - targetIndex * sliceAngle - sliceAngle / 2);
+			// Dibujar círculo central
+			ctx.beginPath();
+			ctx.arc(centerX, centerY, 10, 0, 2 * Math.PI);
+			ctx.fillStyle = "#FFFFFF";
+			ctx.fill();
+			ctx.strokeStyle = colors.border;
+			ctx.lineWidth = 2;
+			ctx.stroke();
+		};
+		drawRoulette(rotation);
+	}, [
+		colors.border,
+		colors.challenge,
+		colors.miss,
+		colors.prize,
+		colors.retry,
+		options,
+		rotation,
+		size,
+	]);
 
-    // Animación de giro
-    let start: number | null = null;
-    const duration = delayTime || 1000;
+	// Inicializar canvas
+	useEffect(() => {
+		const canvas = canvasRef.current;
+		if (canvas) {
+			canvas.width = size;
+			canvas.height = size;
+		}
+	}, [size]);
 
-    const animate = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = timestamp - start;
-      const easeOut = 1 - Math.pow(1 - Math.min(progress / duration, 1), 3);
+	useEffect(() => {
+		if (isSpinning) {
+			const targetIndex = options.findIndex(
+				(option) => option.id === result?.id
+			);
+			// Función para girar la ruleta
+			const drawSpin = (targetIndex: number) => {
+				if (!isSpinning || options.length === 0) return;
 
-      const currentRotation = easeOut * targetRotation;
-      setRotation(currentRotation);
+				// Calcular rotación para que caiga en el segmento objetivo
+				const sliceAngle = (2 * Math.PI) / options.length;
+				const targetRotation =
+					2 * Math.PI * 5 +
+					(2 * Math.PI - targetIndex * sliceAngle - sliceAngle / 2);
 
-      if (progress < duration) {
-        requestAnimationFrame(animate);
-      } else {
-        // Finalizar giro
-        onSpinEnd(result as RouletteOption );
-        stopSpin()
-      }
-    };
+				// Animación de giro
+				let start: number | null = null;
+				const duration = delayTime || 1000;
 
-    requestAnimationFrame(animate);
-  };
+				const animate = (timestamp: number) => {
+					if (!start) start = timestamp;
+					const progress = timestamp - start;
+					const easeOut = 1 - Math.pow(1 - Math.min(progress / duration, 1), 3);
 
-  useEffect(() => {
-    const handleWindowResize = () => {
-      setRotation(
-        prevCount => prevCount + .0001
-      )
-    }
-    window.addEventListener('resize', handleWindowResize as EventListener);
-    setTimeout(()=>{
-      setRotation(
-        prevCount => prevCount + .0001
-      )
-    },125)
+					const currentRotation = easeOut * targetRotation;
+					setRotation(currentRotation);
 
-    return () => {
-      window.removeEventListener('resize', handleWindowResize as EventListener);
-    }
-  },[])
-  useEffect(() => {
-    drawRoulette(rotation);
-  }, [options, rotation]);
+					if (progress < duration) {
+						requestAnimationFrame(animate);
+					} else {
+						// Finalizar giro
+						onSpinEnd(result as RouletteOption);
+						stopSpin();
+					}
+				};
 
-  // Inicializar canvas
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (canvas) {
-      canvas.width = size;
-      canvas.height = size;
-    }
-  }, [size]);
+				requestAnimationFrame(animate);
+			};
+			drawSpin(targetIndex);
+		}
+	}, [delayTime, isSpinning, onSpinEnd, options, result, result?.id, stopSpin]);
 
-  useEffect(() => {
-    if (isSpinning) {
-      const targetIndex = options.findIndex((option) => option.id === result?.id);
-      drawSpin(targetIndex);
-    }
-  },[isSpinning])
-
-  return (
-    <div className='roulette-wrapper' >
-      <canvas
-        ref={canvasRef}
-        className='roulette'
-      />
-      {/* Puntero de la ruleta */}
-      <div className='roulette-ponter' />
-    </div>
-  );
+	return (
+		<div className="roulette-wrapper">
+			<canvas ref={canvasRef} className="roulette" />
+			{/* Puntero de la ruleta */}
+			<div className="roulette-ponter" />
+		</div>
+	);
 };
 
 export default Roulette;
